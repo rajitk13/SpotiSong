@@ -1,0 +1,25 @@
+{
+  "name": "spotisong",
+  "version": "1.0.0",
+  "description": "Adding the song of the day to your everyday playlist using SpotiSong (Web Site).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajitk13/SpotiSong.git"
+  },
+  "author": "Rajit Kuthiala",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rajitk13/SpotiSong/issues"
+  },
+  "homepage": "https://github.com/rajitk13/SpotiSong#readme",
+  "dependencies": {
+    "dotenv": "^11.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2"
+  }
+}
