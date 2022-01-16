@@ -4,6 +4,8 @@ var SpotifyWebApi = require('spotify-web-api-node');
 const app = express();
 const port = 3000;
 
+//Access Token
+var access_token;
 //Scopes
 const scopes = [
   'ugc-image-upload',
@@ -33,7 +35,7 @@ var spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: 'http://localhost:3000/callback'
 });
-const token = process.env.ACCESS_TOKEN;
+const token = access_token;
 spotifyApi.setAccessToken(token);
 
 //Load the HTTP library
@@ -71,6 +73,28 @@ app.get('/playlist',function(req,res){
   
 });
 
+//Profile info Route
+app.get('/profile',(req,res)=>{
+  
+  function getMyData() {
+    (async () => {
+      const me = await spotifyApi.getMe();
+      res.render('profile',{body:me.body});
+   
+    })().catch(e => {
+      console.error(e);
+    });
+  }
+  getMyData();
+  
+})
+
+//Success login page
+
+app.get('/success',(req,res)=>{
+res.render('success');
+});
+
 //Callback Route
 app.get('/callback', (req, res) => {
   const error = req.query.error;
@@ -86,20 +110,20 @@ app.get('/callback', (req, res) => {
   spotifyApi
     .authorizationCodeGrant(code)
     .then(data => {
-      const access_token = data.body['access_token'];
+      access_token = data.body['access_token'];
       const refresh_token = data.body['refresh_token'];
       const expires_in = data.body['expires_in'];
 
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
 
-      console.log('access_token:', access_token);
-      console.log('refresh_token:', refresh_token);
+      // // console.log('access_token:', access_token);
+      // // console.log('refresh_token:', refresh_token);
 
-      console.log(
-        `Sucessfully retreived access token. Expires in ${expires_in} s.`
-      );
-      res.send('Success! You can now close the window.');
+      // console.log(
+      //   `Sucessfully retreived access token. Expires in ${expires_in} s.`
+      // );
+      res.redirect('success');
 
       setInterval(async () => {
         const data = await spotifyApi.refreshAccessToken();
@@ -108,7 +132,8 @@ app.get('/callback', (req, res) => {
         console.log('The access token has been refreshed!');
         console.log('access_token:', access_token);
         spotifyApi.setAccessToken(access_token);
-      }, expires_in / 2 * 1000);
+      }, expires_in / 2 * 100000);
+      //LOGIN TIME OUT DURATION FOR COOKIE DELETION , CLICK LOGIN AGAIN TO ACCESS 
     })
     .catch(error => {
       console.error('Error getting Tokens:', error);
