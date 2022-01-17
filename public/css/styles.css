@@ -55,8 +55,21 @@ h1 {
     transform: translateX(25%);
   }
 }
-
+/* Padding Section */
+#padding-section {
+  padding: 5% 10%;
+}
 /* Home Page */
 #home {
   padding: 5% 10%;
+  background-color: #191414;
+}
+
+#jumbotron {
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
