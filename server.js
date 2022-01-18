@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-var SpotifyWebApi = require('spotify-web-api-node');
+var SpotifyWebApi = require("spotify-web-api-node");
 const app = express();
 const port = 3000;
 
@@ -8,32 +8,32 @@ const port = 3000;
 var access_token;
 //Scopes
 const scopes = [
-  'ugc-image-upload',
-  'user-read-playback-state',
-  'user-modify-playback-state',
-  'user-read-currently-playing',
-  'streaming',
-  'app-remote-control',
-  'user-read-email',
-  'user-read-private',
-  'playlist-read-collaborative',
-  'playlist-modify-public',
-  'playlist-read-private',
-  'playlist-modify-private',
-  'user-library-modify',
-  'user-library-read',
-  'user-top-read',
-  'user-read-playback-position',
-  'user-read-recently-played',
-  'user-follow-read',
-  'user-follow-modify'
+  "ugc-image-upload",
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "streaming",
+  "app-remote-control",
+  "user-read-email",
+  "user-read-private",
+  "playlist-read-collaborative",
+  "playlist-modify-public",
+  "playlist-read-private",
+  "playlist-modify-private",
+  "user-library-modify",
+  "user-library-read",
+  "user-top-read",
+  "user-read-playback-position",
+  "user-read-recently-played",
+  "user-follow-read",
+  "user-follow-modify",
 ];
 
 // Auth Variables and Credentials
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: 'http://localhost:3000/callback'
+  redirectUri: "http://localhost:3000/callback",
 });
 const token = access_token;
 spotifyApi.setAccessToken(token);
@@ -54,65 +54,64 @@ app.get("/", (req, res) => {
 });
 
 // Login Route
-app.get('/login', (req, res) => {
+app.get("/login", (req, res) => {
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
 
+//Get Started Button
+app.post("/start", function (req, res) {
+  res.redirect("/login");
+});
 //Get Playlist
-app.get('/playlist',function(req,res){
+app.get("/playlist", function (req, res) {
   function getMyData() {
     (async () => {
       const me = await spotifyApi.getMe();
       console.log(me.body);
-   
-    })().catch(e => {
+    })().catch((e) => {
       console.error(e);
     });
   }
   getMyData();
-  
 });
 
 //Profile info Route
-app.get('/profile',(req,res)=>{
-  
+app.get("/profile", (req, res) => {
   function getMyData() {
     (async () => {
       const me = await spotifyApi.getMe();
-      res.render('profile',{body:me.body});
-   
-    })().catch(e => {
+      res.render("profile", { body: me.body });
+    })().catch((e) => {
       console.error(e);
     });
   }
   getMyData();
-  
-})
+});
 
 //Success login page
 
-app.get('/success',(req,res)=>{
-res.render('success');
+app.get("/success", (req, res) => {
+  res.render("success");
 });
 
 //Callback Route
-app.get('/callback', (req, res) => {
+app.get("/callback", (req, res) => {
   const error = req.query.error;
   const code = req.query.code;
   const state = req.query.state;
 
   if (error) {
-    console.error('Callback Error:', error);
+    console.error("Callback Error:", error);
     res.send(`Callback Error: ${error}`);
     return;
   }
 
   spotifyApi
     .authorizationCodeGrant(code)
-    .then(data => {
-      access_token = data.body['access_token'];
-      const refresh_token = data.body['refresh_token'];
-      const expires_in = data.body['expires_in'];
+    .then((data) => {
+      access_token = data.body["access_token"];
+      const refresh_token = data.body["refresh_token"];
+      const expires_in = data.body["expires_in"];
 
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
@@ -123,20 +122,20 @@ app.get('/callback', (req, res) => {
       // console.log(
       //   `Sucessfully retreived access token. Expires in ${expires_in} s.`
       // );
-      res.redirect('success');
+      res.redirect("success");
 
       setInterval(async () => {
         const data = await spotifyApi.refreshAccessToken();
-        const access_token = data.body['access_token'];
+        const access_token = data.body["access_token"];
 
-        console.log('The access token has been refreshed!');
-        console.log('access_token:', access_token);
+        console.log("The access token has been refreshed!");
+        console.log("access_token:", access_token);
         spotifyApi.setAccessToken(access_token);
-      }, expires_in / 2 * 100000);
-      //LOGIN TIME OUT DURATION FOR COOKIE DELETION , CLICK LOGIN AGAIN TO ACCESS 
+      }, (expires_in / 2) * 100000);
+      //LOGIN TIME OUT DURATION FOR COOKIE DELETION , CLICK LOGIN AGAIN TO ACCESS
     })
-    .catch(error => {
-      console.error('Error getting Tokens:', error);
+    .catch((error) => {
+      console.error("Error getting Tokens:", error);
       res.send(`Error getting Tokens: ${error}`);
     });
 });

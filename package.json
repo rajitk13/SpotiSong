@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/rajitk13/SpotiSong#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "bootstrap-icons": "^1.7.2",
     "dotenv": "^11.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",

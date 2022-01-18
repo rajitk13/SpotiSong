@@ -56,20 +56,59 @@ h1 {
   }
 }
 /* Padding Section */
-#padding-section {
+.padding-section {
   padding: 5% 10%;
-}
-/* Home Page */
-#home {
-  padding: 5% 10%;
-  background-color: #191414;
 }
 
+/* Home Page */
 #jumbotron {
+  padding: 5% 10%;
+  background-color: #191414;
   color: #fff;
   font-family: Montserrat, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.about {
+  background-color: #1db954;
+}
+.about-text {
+  color: #ffffff;
+}
+
+.music-icon {
+  font-size: 10rem;
+  color: white;
+}
+
+.learn {
+  background-color: #ffffff;
+}
+.learn-text {
+  color: #1db954;
+}
+
+.book-icon {
+  color: #1db954;
+  font-size: 10rem;
+}
+
+/* Footer  */
+
+footer {
+  padding: 5% 5%;
+}
+
+.footer {
+  position: fixed;
+  padding: 1.2% 1.2%;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #000000;
+  color: white;
+  text-align: center;
 }
