@@ -5,7 +5,7 @@ const app = express();
 const port = 3000;
 
 //Access Token
-var access_token;
+
 //Scopes
 const scopes = [
   "ugc-image-upload",
@@ -34,9 +34,8 @@ var spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: "http://localhost:3000/callback",
+  accessToken: process.env.ACCESS_TOKEN,
 });
-const token = access_token;
-spotifyApi.setAccessToken(token);
 
 //Load the HTTP library
 var http = require("http");
@@ -62,17 +61,19 @@ app.get("/login", (req, res) => {
 app.post("/start", function (req, res) {
   res.redirect("/login");
 });
-//Get Playlist
-app.get("/playlist", function (req, res) {
-  function getMyData() {
-    (async () => {
-      const me = await spotifyApi.getMe();
-      console.log(me.body);
-    })().catch((e) => {
-      console.error(e);
-    });
-  }
-  getMyData();
+
+//sod route
+app.get("/sod", function (req, res) {
+  spotifyApi.getArtistTopTracks("4YRxDV8wJFPHPTeXepOstw", "GB").then(
+    function (data) {
+      console.log(data.body);
+      res.render("sod",{body:data.body});
+    },
+    function (err) {
+      console.log("Something went wrong!", err);
+    }
+  );
+ 
 });
 
 //Profile info Route
@@ -98,7 +99,6 @@ app.get("/success", (req, res) => {
 app.get("/callback", (req, res) => {
   const error = req.query.error;
   const code = req.query.code;
-  const state = req.query.state;
 
   if (error) {
     console.error("Callback Error:", error);
@@ -109,30 +109,11 @@ app.get("/callback", (req, res) => {
   spotifyApi
     .authorizationCodeGrant(code)
     .then((data) => {
-      access_token = data.body["access_token"];
+      const access_token = data.body["access_token"];
       const refresh_token = data.body["refresh_token"];
-      const expires_in = data.body["expires_in"];
-
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
-
-      // // console.log('access_token:', access_token);
-      // // console.log('refresh_token:', refresh_token);
-
-      // console.log(
-      //   `Sucessfully retreived access token. Expires in ${expires_in} s.`
-      // );
       res.redirect("success");
-
-      setInterval(async () => {
-        const data = await spotifyApi.refreshAccessToken();
-        const access_token = data.body["access_token"];
-
-        console.log("The access token has been refreshed!");
-        console.log("access_token:", access_token);
-        spotifyApi.setAccessToken(access_token);
-      }, (expires_in / 2) * 100000);
-      //LOGIN TIME OUT DURATION FOR COOKIE DELETION , CLICK LOGIN AGAIN TO ACCESS
     })
     .catch((error) => {
       console.error("Error getting Tokens:", error);
