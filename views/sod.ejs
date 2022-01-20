@@ -3,7 +3,13 @@
     <div class='padding-section'>
         <h1>Song of the day!</h1>
         <div>
-            <h3><%=body.tracks[0].name%></h3>
+            <h3>
+                <%=name%>
+            </h3>
+            <audio controls="controls">
+                <source src ="<%=url%>"type="audio/mpeg">
+            </audio>
+            <h4>Song Preview</h4>
         </div>
     </div>
 

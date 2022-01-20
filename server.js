@@ -67,13 +67,15 @@ app.get("/sod", function (req, res) {
   spotifyApi.getArtistTopTracks("4YRxDV8wJFPHPTeXepOstw", "GB").then(
     function (data) {
       console.log(data.body);
-      res.render("sod",{body:data.body});
+      var rand = Math.floor(Math.random(20) * 10);
+      var name_song = data.body.tracks[rand].name;
+      var url = data.body.tracks[rand].preview_url;
+      res.render("sod", { name: name_song, url: url });
     },
     function (err) {
       console.log("Something went wrong!", err);
     }
   );
- 
 });
 
 //Profile info Route
