@@ -4,8 +4,6 @@ var SpotifyWebApi = require("spotify-web-api-node");
 const app = express();
 const port = 3000;
 
-//Access Token
-
 //Scopes
 const scopes = [
   "ugc-image-upload",
@@ -70,19 +68,34 @@ app.get("/sod", function (req, res) {
       var rand = Math.floor(Math.random(20) * 10);
       var name_song = data.body.tracks[rand].name;
       var url = data.body.tracks[rand].preview_url;
-      res.render("sod", { name: name_song, url: url });
+
+      spotifyApi.getUserPlaylists(username).then(
+        function (playlistUser) {
+          // console.log("Retrieved playlists", playlistUser.body);
+          console.log(playlistUser.body.items[0].description );
+          res.render("sod", {
+            name: name_song,
+            url: url,
+            playlistUser: playlistUser.body,
+          });
+        },
+        function (err) {
+          console.log("Something went wrong!", err);
+        }
+      );
     },
     function (err) {
       console.log("Something went wrong!", err);
     }
   );
 });
-
+var username;
 //Profile info Route
 app.get("/profile", (req, res) => {
   function getMyData() {
     (async () => {
       const me = await spotifyApi.getMe();
+      username = me.body.name;
       res.render("profile", { body: me.body });
     })().catch((e) => {
       console.error(e);
