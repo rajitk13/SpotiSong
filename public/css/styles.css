@@ -96,6 +96,11 @@ h1 {
   font-size: 10rem;
 }
 
+/* SOD PAGE */
+
+.playlist{
+  list-style: none;
+}
 /* Footer  */
 
 footer {

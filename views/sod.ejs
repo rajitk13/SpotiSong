@@ -13,12 +13,21 @@
         <hr>
         <h2>Select Playlist</h2>
 
-          
-           
-                    <% playlistUser.items.description %>
 
-               
-   
+        <form action="/getPlaylist" method="post">
+            <ul class="playlist">
+                <% playlistDisp.body.items.forEach(function (data){ %>
+                    <li><input type="checkbox" name="getplaylist" id="getplaylist " value="<%data.id%>">
+                        <%=data.description %>
+                    </li>
+
+                    <% }); %>
+
+            </ul>
+            <button type="submit">Select Playlist - Confirm</button>
+        </form>
+
+
     </div>
 
 

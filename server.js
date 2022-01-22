@@ -64,7 +64,7 @@ app.post("/start", function (req, res) {
 app.get("/sod", function (req, res) {
   spotifyApi.getArtistTopTracks("4YRxDV8wJFPHPTeXepOstw", "GB").then(
     function (data) {
-      console.log(data.body);
+      // console.log(data.body);
       var rand = Math.floor(Math.random(20) * 10);
       var name_song = data.body.tracks[rand].name;
       var url = data.body.tracks[rand].preview_url;
@@ -72,11 +72,11 @@ app.get("/sod", function (req, res) {
       spotifyApi.getUserPlaylists(username).then(
         function (playlistUser) {
           // console.log("Retrieved playlists", playlistUser.body);
-          console.log(playlistUser.body.items[0].description );
+          console.log(playlistUser.body.items[0].description);
           res.render("sod", {
             name: name_song,
             url: url,
-            playlistUser: playlistUser.body,
+            playlistDisp: playlistUser,
           });
         },
         function (err) {
@@ -88,6 +88,11 @@ app.get("/sod", function (req, res) {
       console.log("Something went wrong!", err);
     }
   );
+});
+
+//Get Selected Playlist
+app.post("/getPlaylist", function (req, res) {
+  console.log(req.value.getplaylist);
 });
 var username;
 //Profile info Route
