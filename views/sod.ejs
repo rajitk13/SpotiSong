@@ -4,27 +4,37 @@
         <h1>Song of the day!</h1>
 
         <h3>
-            <%=name%>
+            <%=name%> - Song Preview
         </h3>
         <audio controls="controls">
             <source src="<%=url%>" type="audio/mpeg">
         </audio>
-        <h4>Song Preview</h4>
-        <hr>
+       
+
+    </div>
+    <div class='padding-section'>
         <h2>Select Playlist</h2>
-
-
         <form action="/getPlaylist" method="post">
-            <ul class="playlist">
+            <table class="table">
+                <tr>
+                    <th>Playlist Name</th>
+                    <th>Song ID</th>
+                </tr>
                 <% playlistDisp.body.items.forEach(function (data){ %>
-                    <li><input type="checkbox" name="getplaylist" id="getplaylist " value="<%data.id%>">
-                        <%=data.description %>
-                    </li>
-
+                    <tr>
+                        <td>
+                            <%=data.description %>
+                        </td>
+                        <td>
+                            <%=data.id%>
+                        </td>
+                    </tr>
                     <% }); %>
-
-            </ul>
-            <button type="submit">Select Playlist - Confirm</button>
+            </table>
+            <label>Playlist ID</label>
+            <input type="text" class="form-control"  placeholder="Enter Playlist ID">
+            <small class="form-text text-muted">Copy ID from Above and paste here.</small>
+            <button type="submit"  class="btn btn-primary">Select Playlist - Confirm</button>
         </form>
 
 

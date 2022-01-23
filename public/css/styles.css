@@ -57,7 +57,7 @@ h1 {
 }
 /* Padding Section */
 .padding-section {
-  padding: 5% 10%;
+  padding: 5% 7%;
 }
 
 /* Home Page */
@@ -96,11 +96,6 @@ h1 {
   font-size: 10rem;
 }
 
-/* SOD PAGE */
-
-.playlist{
-  list-style: none;
-}
 /* Footer  */
 
 footer {
