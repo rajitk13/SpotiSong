@@ -1,5 +1,4 @@
 <%- include('partials/header'); -%>
-
     <div class='padding-section'>
         <h1>Song of the day!</h1>
 
@@ -9,16 +8,17 @@
         <audio controls="controls">
             <source src="<%=url%>" type="audio/mpeg">
         </audio>
-       
+
 
     </div>
     <div class='padding-section'>
         <h2>Select Playlist</h2>
-        <form action="/getPlaylist" method="post">
+        <form action='/playID' method="post">
             <table class="table">
                 <tr>
                     <th>Playlist Name</th>
                     <th>Song ID</th>
+                    <th>Select Playlist</th>
                 </tr>
                 <% playlistDisp.body.items.forEach(function (data){ %>
                     <tr>
@@ -28,13 +28,15 @@
                         <td>
                             <%=data.id%>
                         </td>
+                        <td>
+                            <input type="radio" name="radVal" value=" <%=data.id%>" />
+                        </td>
                     </tr>
                     <% }); %>
             </table>
-            <label>Playlist ID</label>
-            <input type="text" class="form-control"  placeholder="Enter Playlist ID">
-            <small class="form-text text-muted">Copy ID from Above and paste here.</small>
-            <button type="submit"  class="btn btn-primary">Select Playlist - Confirm</button>
+
+
+            <button type="submit" class="btn btn-primary playlist submitreq">Select Playlist - Confirm</button>
         </form>
 
 

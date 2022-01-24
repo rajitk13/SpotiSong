@@ -2,7 +2,11 @@ require("dotenv").config();
 const express = require("express");
 var SpotifyWebApi = require("spotify-web-api-node");
 const app = express();
+const bp = require("body-parser");
 const port = 3000;
+
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true }));
 
 //Scopes
 const scopes = [
@@ -72,7 +76,6 @@ app.get("/sod", function (req, res) {
       spotifyApi.getUserPlaylists(username).then(
         function (playlistUser) {
           // console.log("Retrieved playlists", playlistUser.body);
-          console.log(playlistUser.body.items[0].description);
           res.render("sod", {
             name: name_song,
             url: url,
@@ -90,10 +93,6 @@ app.get("/sod", function (req, res) {
   );
 });
 
-//Get Selected Playlist
-app.post("/getPlaylist", function (req, res) {
-  console.log(req.value.getplaylist);
-});
 var username;
 //Profile info Route
 app.get("/profile", (req, res) => {
@@ -107,6 +106,12 @@ app.get("/profile", (req, res) => {
     });
   }
   getMyData();
+});
+
+//Get Selected Playlist
+app.post("/playID", function (req, res) {
+  console.log(req.body.radVal);
+  res.redirect("/sod");
 });
 
 //Success login page
