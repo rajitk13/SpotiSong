@@ -44,6 +44,7 @@ var http = require("http");
 
 //Configuring EJS
 let ejs = require("ejs");
+const { stringify } = require("querystring");
 app.set("view engine", "ejs");
 
 //Static Files folder
@@ -110,7 +111,21 @@ app.get("/profile", (req, res) => {
 
 //Get Selected Playlist
 app.post("/playID", function (req, res) {
-  console.log(req.body.radVal);
+  // console.log(req.body.radVal);
+  console.log(JSON.stringify(req.body.radVal).trim());
+  // spotifyApi
+  //   .addTracksToPlaylist(JSON.stringify(req.body.radVal), [
+  //     "spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
+  //     "spotify:track:1301WleyT98MSxVHPZCA6M",
+  //   ])
+  //   .then(
+  //     function (data) {
+  //       console.log("Added tracks to playlist!");
+  //     },
+  //     function (err) {
+  //       console.log("Something went wrong!", err);
+  //     }
+  //   );
   res.redirect("/sod");
 });
 
