@@ -24,6 +24,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "particlesjs": "^2.2.3",
-    "spotify-web-api-node": "^5.0.2"
+    "spotify-web-api-node": "^5.0.2",
+    "stringify-object": "^4.0.0"
   }
 }

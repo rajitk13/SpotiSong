@@ -73,14 +73,17 @@ app.get("/sod", function (req, res) {
       var rand = Math.floor(Math.random(20) * 10);
       var name_song = data.body.tracks[rand].name;
       var url = data.body.tracks[rand].preview_url;
+      var songuri = data.body.tracks[rand].uri;
 
       spotifyApi.getUserPlaylists(username).then(
         function (playlistUser) {
           // console.log("Retrieved playlists", playlistUser.body);
+          // console.log(songuri);
           res.render("sod", {
             name: name_song,
             url: url,
             playlistDisp: playlistUser,
+            songuri: songuri,
           });
         },
         function (err) {
@@ -111,21 +114,16 @@ app.get("/profile", (req, res) => {
 
 //Get Selected Playlist
 app.post("/playID", function (req, res) {
-  // console.log(req.body.radVal);
-  console.log(JSON.stringify(req.body.radVal).trim());
-  // spotifyApi
-  //   .addTracksToPlaylist(JSON.stringify(req.body.radVal), [
-  //     "spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
-  //     "spotify:track:1301WleyT98MSxVHPZCA6M",
-  //   ])
-  //   .then(
-  //     function (data) {
-  //       console.log("Added tracks to playlist!");
-  //     },
-  //     function (err) {
-  //       console.log("Something went wrong!", err);
-  //     }
-  //   );
+  const songVal = req.body.songVal;
+  console.log(songVal);
+  spotifyApi.addTracksToPlaylist(req.body.radVal, [songVal]).then(
+    function (data) {
+      console.log("Added tracks to playlist!");
+    },
+    function (err) {
+      console.log("Something went wrong!", err);
+    }
+  );
   res.redirect("/sod");
 });
 
