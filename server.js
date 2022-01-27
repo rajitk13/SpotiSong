@@ -45,6 +45,7 @@ var http = require("http");
 //Configuring EJS
 let ejs = require("ejs");
 const { stringify } = require("querystring");
+const { redirect } = require("express/lib/response");
 app.set("view engine", "ejs");
 
 //Static Files folder
@@ -106,6 +107,7 @@ app.get("/profile", (req, res) => {
       username = me.body.name;
       res.render("profile", { body: me.body });
     })().catch((e) => {
+      res.redirect('/login');
       console.error(e);
     });
   }
@@ -114,9 +116,8 @@ app.get("/profile", (req, res) => {
 
 //Get Selected Playlist
 app.post("/playID", function (req, res) {
-  const songVal = req.body.songVal;
-  console.log(songVal);
-  spotifyApi.addTracksToPlaylist(req.body.radVal, [songVal]).then(
+  console.log(req.body.songVal);
+  spotifyApi.addTracksToPlaylist(req.body.radVal, [req.body.songVal]).then(
     function (data) {
       console.log("Added tracks to playlist!");
     },

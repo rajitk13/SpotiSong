@@ -30,14 +30,13 @@
                         </td>
                         <td>
                             <input type="radio" name="radVal" value="<%=data.id%>" />
-                            <input type="hidden" name="songVal" value="<%=songuri%>" />
+
                         </td>
                     </tr>
                     <% }); %>
             </table>
-
-
-            <button type="submit" class="btn btn-primary playlist submitreq">Select Playlist - Confirm</button>
+            <input type="hidden" name="songVal" value="<%=songuri%>" id="songVal" />
+            <button type="submit" id="success" class="btn btn-primary playlist">Select Playlist - Confirm</button>
         </form>
 
 
