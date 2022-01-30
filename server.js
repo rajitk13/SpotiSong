@@ -3,7 +3,7 @@ const express = require("express");
 var SpotifyWebApi = require("spotify-web-api-node");
 const app = express();
 const bp = require("body-parser");
-const port = 3000;
+const port = process.env.PORT||3000;
 
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
