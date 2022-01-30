@@ -35,7 +35,7 @@ const scopes = [
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: "http://localhost:3000/callback",
+  redirectUri: "http://nameless-river-99592.herokuapp.com/callback",
   accessToken: process.env.ACCESS_TOKEN,
 });
 
